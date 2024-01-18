@@ -7,14 +7,22 @@ export default {
   data() {
     return {
       isPlaying: false,
-      delay: null
+      delay: null,
+      score:null,
+      showResults:false
     }
   },
   methods: {
     start(){
       this.delay=1000 + Math.random() * 5000
       this.isPlaying = true
-      console.log(this.delay)
+      this.showResults=false
+    },
+    endGame(reactionTime){
+      this.isPlaying=false
+      this.showResults=true
+      this.score=reactionTime
+      document.getElementById('boton').innerText='play again'
     }
   }
 }
@@ -29,7 +37,8 @@ export default {
   <main>
    <h1> Ninja Reaction Timer</h1>
    <button id="boton" @click="start" :disabled="isPlaying">Play</button>
-   <Block v-if="isPlaying" :delay="delay"/>
+   <Block v-if="isPlaying" :delay="delay" @end="endGame"/>
+   <Results v-if="showResults" :score="score"></Results>
   </main>
 </template>
 
